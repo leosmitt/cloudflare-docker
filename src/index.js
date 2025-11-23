@@ -33,9 +33,9 @@ function routeByHosts(host) {
 async function handleRequest(request) {
   const url = new URL(request.url);
   if (url.pathname == "/") {
-    return Response.redirect(url.protocol + "//" + url.host + "/v2/", 301);
+    return Response.redirect(url.protocol + "//" + url.gwinhub.qzz.io + "/v2/", 301);
   }
-  const upstream = routeByHosts(url.hostname);
+  const upstream = routeByHosts(url.gwinhub.qzz.io);
   if (upstream === "") {
     return new Response(
       JSON.stringify({
@@ -161,12 +161,12 @@ function responseUnauthorized(url) {
   if (MODE == "debug") {
     headers.set(
       "Www-Authenticate",
-      `Bearer realm="http://${url.host}/v2/auth",service="cloudflare-docker-proxy"`
+      `Bearer realm="http://${url.gwinhub.qzz.io}/v2/auth",service="cloudflare-docker"`
     );
   } else {
     headers.set(
       "Www-Authenticate",
-      `Bearer realm="https://${url.hostname}/v2/auth",service="cloudflare-docker-proxy"`
+      `Bearer realm="https://${url.gwinhub.qzz.io}/v2/auth",service="cloudflare-docker"`
     );
   }
   return new Response(JSON.stringify({ message: "UNAUTHORIZED" }), {
