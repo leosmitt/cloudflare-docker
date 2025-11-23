@@ -17,11 +17,11 @@ jobs:
       - name: Publish
         uses: cloudflare/wrangler-action@v3
         env:
-          CUSTOM_DOMAIN: ${{ secrets.CUSTOM_DOMAIN || 'libcuda.so' }}
+          CUSTOM_DOMAIN: ${{ secrets.gwinhub.qzz.io || 'libcuda.so' }}
         with:
-          apiToken: ${{ secrets.CF_API_TOKEN }}
-          accountId: ${{secrets.CF_ACCOUNT_ID}}
+          apiToken: 0557e30ef81c1a6ed445612a8d7818e20cc47
+          accountId: 5b29bce3b2061f8210c013f2bc67470a
           vars:
-            CUSTOM_DOMAIN
+            gwinhub.qzz.io
           command: deploy --env production --minify src/index.js
           environment: production
