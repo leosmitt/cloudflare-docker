@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Image usage instructions</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        .github-link {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            color: #fff;
+            text-decoration: none;
+        }
+        .github-icon {
+            width: 24px;
+            height: 24px;
+            vertical-align: middle;
+        }
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        .content {
+            margin-bottom: 20px;
+        }
+        .footer {
+            text-align: center;
+            padding: 20px 0;
+            background-color: #333;
+            color: #fff;
+        }
+        pre {
+            background-color: #272822;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        code {
+            font-family: 'Source Code Pro', monospace;
+        }
+        a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        @media (max-width: 600px) {
+            .container {
+                margin: 20px;
+                padding: 15px;
+            }
+            .header {
+                padding: 15px 0;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Source+Code+Pro:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="header">
+    <h1>Image usage instructions</h1>
+    <a href="https://github.com/lixd/cloudflare-docker-proxy" target="_blank" class="github-link">
+        <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" class="github-icon">
+    </a>
+</div>
+<div class="container">
+    <div class="content">
+        <p> Docker image pull တွေကို မြန်ဆန်စေဖို့အတွက် အောက်ပါ command ကို အသုံးပြုနိုင်ပါတယ် registry mirror:</p>
+        <pre><code id="registry-config">sudo tee /etc/docker/daemon.json &lt;&lt;EOF
+{
+    "registry-mirrors": ["https://docker.gwinhub.qzz.io"]
+}
+EOF
+# Configure လုပ်ပြီးသွားရင် Docker service ကို restart လုပ်ရပါမယ်။
+sudo systemctl restart docker
+</code></pre>
+        <p>မတူညီသော image repositories များမှ image များကို ဆွဲယူရန် ဤ proxy ကို အသုံးပြုရန်အတွက် အောက်ပါ command များကို ကြည့်ပါ။：</p>
+        <pre><code id="commands">
+# docker pull nginx:latest
+docker pull docker.gwinhub.qzz.io/library/nginx:latest  # Pull the official Docker image
+
+# docker pull quay.io/coreos/etcd:latest
+docker pull quay.gwinhub.qzz.io/coreos/etcd:latest  # Pull Quay Mirror
+
+# docker pull gcr.io/google-containers/busybox:latest
+docker pull gcr.gwinhub.qzz.io/google-containers/busybox:latest  # 拉取 GCR 镜像
+
+# docker pull k8s.gcr.io/pause:latest
+docker pull k8s-gcr.gwinhub.qzz.io/pause:latest  # 拉取 k8s.gcr.io 镜像
+
+# docker pull registry.k8s.io/pause:latest
+docker pull k8s.gwinhub.qzz.io/pause:latest  # 拉取 registry.k8s.io 镜像
+
+# docker pull ghcr.io/github/super-linter:latest
+docker pull ghcr.gwinhub.qzz.io/github/super-linter:latest  # 拉取 GitHub 容器镜像
+
+# docker pull docker.cloudsmith.io/public/repo/image:latest
+docker pull cloudsmith.gwinhub.qzz.io/public/repo/image:latest  # 拉取 Cloudsmith 镜像
+</code></pre>
+        <p>အလုပ်သမားအသုံးပြုမှု ကုန်ဆုံးခြင်းကို ရှောင်ရှားရန်အတွက် ပုံကို ကိုယ်တိုင်ဆွဲယူနိုင်ပြီး ပြန်လည် tag လုပ်ကာ သင့်ဒေသခံ image repository သို့ push လုပ်နိုင်ပါသည်။</p>
+    </div>
+</div>
+<div class="footer">
+    <p>Powered by Leo</p>
+    <p><a href="https://gwinhub.qzz.io" target="_blank">cloud native နည်းပညာများကို လေ့လာရန် ဘလော့ဂ်သို့ ဝင်ရောက်ကြည့်ရှုပါ။</a></p>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const host = window.location.gwinhub.qzz.io;
+        const mainDomain = gwinhub.qzz.io.split('.').slice(-2).join('.');
+        const registryConfigElement = document.getElementById('registry-config');
+        const commandsElement = document.getElementById('commands');
+
+        registryConfigElement.innerHTML = registryConfigElement.innerHTML.replace(/gwinhub.qzz.io/g, host);
+        commandsElement.innerHTML = commandsElement.innerHTML.replace(/gwinhub.qzz.io/g, mainDomain);
+    });
+</script>
+</body>
+</html>
