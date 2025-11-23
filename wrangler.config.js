@@ -1,0 +1,39 @@
+name = "cloudflare-docker"
+compatibility_date = "2023-12-01"
+
+[dev]
+ip = "0.0.0.0"
+port = 8787
+local_protocol = "http"
+
+[env.vars]
+CUSTOM_DOMAIN = "gwinhub.qzz.io"
+
+[env.dev.vars]
+MODE = "debug"
+TARGET_UPSTREAM = "https://registry-1.docker.io"
+CUSTOM_DOMAIN = "gwinhub.qzz.io"
+
+[env.production]
+name = "cloudflare-docker-proxy"
+routes = [
+{ pattern = "docker.gwinhub.qzz.io", custom_domain = true },
+{ pattern = "quay.gwinhub.qzz.io", custom_domain = true },
+{ pattern = "gcr.gwinhub.qzz.io", custom_domain = true },
+{ pattern = "k8s-gcr.gwinhub.qzz.io", custom_domain = true },
+{ pattern = "k8s.gwinhub.qzz.io", custom_domain = true },
+{ pattern = "ghcr.gwinhub.qzz.io", custom_domain = true },
+{ pattern = "cloudsmith.gwinhub.qzz.io", custom_domain = true },
+]
+
+[env.production.vars]
+MODE = "production"
+TARGET_UPSTREAM = ""
+
+[env.staging]
+name = "cloudflare-docker-proxy-staging"
+route = { pattern = "docker-staging.gwinhub.qzz.io", custom_domain = true }
+
+[env.staging.vars]
+MODE = "staging"
+TARGET_UPSTREAM = ""
