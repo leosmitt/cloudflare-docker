@@ -1,9 +1,9 @@
 {
-  "name": "cloudflare-docker-proxy",
+  "name": "cloudflare-docker",
   "private": true,
   "description": "",
   "version": "1.0.0",
-  "author": "ciiiii <allen.cccccnm@gmail.com>",
+  "author": "leosmitt <h3ls80901993@gmail.com>",
   "dependencies": {},
   "devDependencies": {
     "prettier": "^2.4.1",
